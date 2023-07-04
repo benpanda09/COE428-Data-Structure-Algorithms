@@ -1,0 +1,20 @@
+Status of Lab: Everything should work. 
+
+INSERTION SORT
+
+Best Case Scenario:
+
+In this case, the algorithm will take the minimum amount of time to sort the array because each element will be inserted into its correct position without any swaps or exchanges. This means that the time complexity of the best case scenario for insertion sort is O(n), where n is the number of elements in the array. 
+Worst Case Scenario:
+
+In the worst case scenario, the time complexity of insertion sort is O(n^2), where n is the number of elements in the array. This means that the performance of insertion sort is quadratic and grows quickly as the size of the array increases. For large arrays, this can result in a significant amount of time being needed to sort the array. The worst case scenario for insertion sort can be demonstrated by sorting an array of elements in descending order. Therefore the worst case scenario for insertion sort occurs when the input array is sorted in reverse order, which results in the maximum number of operations needed to sort the array. This results in a time complexity of O(n^2), making insertion sort less efficient for large arrays compared to other sorting algorithms.
+
+MERGE SORT
+
+Best Case Scenario:
+
+The best case scenario for merge sort occurs when the input array is already sorted, resulting in a highly efficient sorting algorithm with a time complexity of O(n log n). This makes merge sort a good choice for arrays of any size, as its performance remains consistent even in the best case scenario.
+
+Worst Case Scenario:
+
+The worst case scenario for merge sort occurs when the input array is sorted in reverse order, resulting in a higher number of operations being performed during the merging process. Despite this, the time complexity of merge sort remains at O(n log n) in the worst case scenario, making it a highly efficient sorting algorithm for arrays of any size.

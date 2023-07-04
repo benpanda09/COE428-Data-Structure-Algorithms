@@ -1,0 +1,22 @@
+Benjamin Pan 
+501091678
+
+Part 1: 
+
+Works
+
+Part 2a:
+
+Works
+
+Part 2b:
+
+Works
+but in order to make execute sort must enter -0 at the end of the input number to start
+
+
+
+Question:
+
+Just like how I implement part 1's condition I will do the same with this case as well where the user can either enter the slash before the character/word or after the character/word. For the before case the user will need to match it with a start tag and for after case the user won't have to do anything as this stand alone tag is valid by itself. 
+

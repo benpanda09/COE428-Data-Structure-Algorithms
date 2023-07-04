@@ -1,0 +1,448 @@
+/* Assigned State Machine 
+
+AFC
+BAE
+CDH
+DEF
+EGE
+FBD
+GCH
+HAB
+
+Starting State: C
+
+*/
+
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct stateMachine{
+	
+	int num;
+	int deleted;
+	int garbage;
+	char name;
+    char name1;
+    struct stateMachine * nextState0;
+	struct stateMachine * nextState1;
+}
+
+fsm; 
+fsm states [8];
+
+
+void initialStates(){
+     states[0].name = 'A';
+     states[0].name1 = 'a';
+	 states[0].num = 0;
+	 states[0].nextState0 = states + 5;
+	 states[0].nextState1 = states + 2;
+	 states[0].deleted = 0;
+	 states[0].garbage = 0;
+	 
+	 states[1].name = 'B';
+     states[1].name1 = 'b';
+	 states[1].num = 1;
+	 states[1].nextState0 = states + 0; 
+	 states[1].nextState1 = states + 4; 
+	 states[1].deleted = 0;
+	 states[1].garbage = 0;
+
+	 states[2].name = 'C';
+     states[2].name1 = 'c';
+	 states[2].num = 2;
+	 states[2].nextState0 = states + 3;
+	 states[2].nextState1 = states + 7;
+	 states[2].deleted = 0;	
+ 
+	 states[3].name = 'D';
+     states[3].name1 = 'd';
+	 states[3].num = 3;
+	 states[3].nextState0 = states + 4;
+	 states[3].nextState1 = states + 5;
+	 states[3].deleted = 0;	
+	 states[3].garbage = 0;
+
+	 states[4].name = 'E';
+     states[4].name1 = 'e';
+	 states[4].num = 4;
+	 states[4].nextState0 = states + 6;
+	 states[4].nextState1 = states + 4;
+	 states[4].deleted = 0;
+	 states[4].garbage = 0;
+ 
+	 states[5].name = 'F';
+     states[5].name1 = 'f';
+	 states[5].num = 5;
+	 states[5].nextState0 = states + 1;
+	 states[5].nextState1 = states + 3;
+	 states[5].deleted = 0;
+	 states[5].garbage = 0;
+	 
+	 states[6].name = 'G';
+     states[6].name1 = 'g';
+	 states[6].num = 6;
+	 states[6].nextState0 = states + 2;
+	 states[6].nextState1 = states + 7;
+	 states[6].deleted = 0;
+	 states[6].garbage = 0;
+	 
+	 states[7].name = 'H';
+     states[7].name1 = 'h';
+	 states[7].num = 7;
+	 states[7].nextState0 = states + 0;
+	 states[7].nextState1 = states + 1;
+	 states[7].deleted = 0;	 
+	 states[7].garbage = 0;
+	 states[8].garbage = 0;//for no garbage
+}
+
+
+int main(int argc, char * argv[])
+{
+    
+	bool c = true;
+	int i; 
+    char command[4];
+	initialStates();
+	fsm currentState = states[2]; 
+	//The starting state will be printed before any user command 
+        fprintf(stdout,"Your starting state is: %c \n", currentState.name);
+ 
+ 	//Print out the state machine
+	while (c){
+
+	  for (i = 0; i <= 4; i++){
+	    	scanf("%c", &command[i]);
+			if (command[i] == '\n'){
+		break;
+	  }
+
+	 }
+
+//if user enters in 'q' the program will quit 
+    if (command[0] == 'q'){
+	    fprintf(stdout,"\nProgram has ended.");   
+		exit(0);
+	  }
+//else if the user enters state printing
+	else if (command[0] == 'p'){
+	    
+	     for(i = 0; i <= 7; i++){
+                if(states[i].deleted != 1){
+		   fprintf(stdout, "%c %c %c\n", states[i].name,states[i].nextState0->name, states[i].nextState1->name);		
+                }
+             }
+	  }
+
+	else if(command[0] == '1'){
+		
+		if(states[currentState.nextState1->num].deleted == 1){
+		    fprintf(stdout,"The state you want to go to %c is deleted!\n", currentState.nextState1->name);
+			//if user is still trying to access the state machine that is already deleted. 
+		}
+		else{
+			fprintf(stdout, "You are at state %c\n",currentState.nextState1->name);
+			currentState = states[currentState.nextState1->num];}
+			//prints out the next state is the user enters the 1 command
+		}	
+
+	 else if (command[0] == '0'){
+		if(states[currentState.nextState0->num].deleted == 1){
+		   fprintf(stdout,"The state you want to go to %c is deleted!\n", currentState.nextState0->name);
+		   //if user is still trying to access the state machine that is already deleted. 
+		}
+		else{
+		fprintf(stdout, "You are at state %c\n",currentState.nextState0->name);
+		currentState = states[currentState.nextState0->num];}
+			//prints out the next state is the user enters the 0 command
+	 }
+	  
+    
+    
+     //String z;
+     //command[0] = z;
+
+	 //garbage part
+	 //Whenever the state uncreachable the state will be stored into the garbage array 
+     else if (command[0] == 'g'){
+         int cnt[7]= {0};
+		 
+          
+          for (i=0; i <= 7; i++){
+             if (states[i].deleted != 1){ //if state is not deleted 
+			
+                 if ((states[i].nextState0->name) == 'A' || (states[i].nextState1->name) == 'A'){ 
+                    cnt[0]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'B' || (states[i].nextState1->name) == 'B'){ 
+                    cnt[1]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'C' || (states[i].nextState1->name) == 'C'){ 
+                    cnt[2]++;		
+                  }
+                 if ((states[i].nextState0->name) == 'D' || (states[i].nextState1->name) == 'D'){ 
+                    cnt[3]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'E' || (states[i].nextState1->name) == 'E'){
+                    cnt[4]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'F' || (states[i].nextState1->name) == 'F'){ 
+                    cnt[5]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'G' || (states[i].nextState1->name) == 'G'){
+                    cnt[6]++;		
+                 }
+                 if ((states[i].nextState0->name) == 'H' || (states[i].nextState1->name) == 'H'){ 
+                 	cnt[7]++;		
+                 }
+	     }}
+	
+      fprintf(stdout,"Garbage: ");
+      if (cnt[0] <1){
+        
+		states[0].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if(cnt[1] <1){
+         
+		states[1].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if (cnt[2] <1){
+        
+		states[2].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if (cnt[3] <1){
+       
+		states[3].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if (cnt[4] <1){
+       
+		states[4].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if (cnt[5] <1){
+        
+		states[5].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if (cnt[6] <1){
+       
+		states[6].garbage = 1; 
+		states[8].garbage = 3;
+      }
+      else if (cnt[7] <1){
+        
+		states[7].garbage = 1;
+		states[8].garbage = 3;
+      }
+      else if(cnt[0]>=1 && cnt[1]>=1 && cnt[2]>=1 && cnt[3]>=1 && cnt[4]>=1 && cnt[5]>=1  && cnt[6]>=1 && cnt[7]>=1){
+        fprintf(stdout, "No Garbage \n");
+		states[8].garbage = 2;
+		//if all states are reachable then this else if line will print
+		
+	  }
+	  //else {states[8].garbage = 2;}
+	  int n = 1;
+	  // if the state is in garbage and not deleted it'll print unreachable state
+	  for (i = 0; i <=7; i ++) {
+				if (states[i].garbage == 1 && (states[i].deleted != 1)){
+					fprintf(stdout, " <unreachable state> \n-> %c \n", states[i].name);
+			
+			}
+			
+			// if state is in garbage and deleted the message will print 
+			if (cnt[i] == 0 && (states[i].deleted == 1 )){
+				
+				if (n == 1){
+					fprintf(stdout, "\n\n");
+			}
+				
+				fprintf(stdout, "-> Garbage state %c was deleted (not reachable anymore)\n", states[i].name);
+				n = 2;}
+				
+			}
+				
+		
+			}
+	
+
+
+    //deletion part (linked to the garbage array)
+	//prints out whether the state is deleted or not, tell the user whether the state is deleted or not (for every state machine)  
+	//takes the state machine in puts it into another state array for the deleted state machine 
+    else if (command[0] == 'd'){
+
+	//goes through the entire garbage array and transfer it into the deleted array and printing it as to tell user which state is being deleted
+    for (i = 0; i <=7; i ++) {
+		if (states[i].garbage == 1){
+			fprintf(stdout, "Deleted  <list of deleted garbage states> \n");
+			for (i = 0; i <=7; i ++) {
+				if (states[i].garbage == 1){
+			fprintf(stdout, "-> %c \n", states[i].name);
+			states[i].garbage = 3;
+			states[i].deleted = 1;
+				}
+			}
+			states[8].garbage = 3;
+		}
+	}
+	//if the deleted is empty 
+	if (states[8].garbage == 2){
+			fprintf(stdout, "No states deleted \n");
+			states[8].garbage = 3;
+		}
+    //if state A, B, C, D, E, F, G, H is in the deleted array or not (informative code)
+	else if (command[1] == 'A'){
+		if(states[0].deleted == 1){
+			fprintf(stdout, "State A is not deleted\n");
+		}
+		else{
+			fprintf(stdout, "State A is deleted\n");
+			states[0].deleted = 1; }
+	   	} 
+	else if (command[1] == 'B'){ 
+		if(states[1].deleted == 1){
+			fprintf(stdout, "State B is not deleted\n");
+		}
+		else{
+			fprintf(stdout, "State B is deleted\n");
+			states[1].deleted = 1;}
+	    } 
+	else if (command[1] == 'C'){
+		if(states[2].deleted == 1){
+			fprintf(stdout, "State C is not deleted\n");
+		}
+		else{
+			fprintf(stdout, "State C is deleted\n");
+			states[2].deleted = 1; }
+	   	} 
+    else if (command[1] == 'D'){
+		if(states[3].deleted == 1){
+			fprintf(stdout, "State D is not deleted\n");
+		}
+		else{
+			fprintf(stdout, "State D is deleted\n");
+			states[3].deleted = 1; }
+	    } 
+	else if (command[1] == 'E'){
+		if(states[4].deleted == 1){
+			fprintf(stdout, "State E is not deleted\n");
+		}
+		else{
+			states[4].deleted = 1; 
+			fprintf(stdout, "State E is deleted\n");}
+	    } 
+	else if (command[1] == 'F'){
+		if(states[5].deleted == 1){
+			fprintf(stdout, "State F is not deleted\n");
+		}
+		else{
+			fprintf(stdout, "State F is deleted\n");
+			states[5].deleted = 1; }
+	    } 
+	else if (command[1] == 'G'){	
+			if(states[6].deleted == 1){
+			fprintf(stdout, "State G is not deleted\n");
+		}
+		else{ 
+			fprintf(stdout, "State G is deleted\n");
+			states[6].deleted = 1;}
+	    } 
+	else if (command[1] == 'H'){	
+			if(states[7].deleted == 1){
+			fprintf(stdout, "State H is not deleted\n");
+		}
+		else{ 
+			fprintf(stdout, "State H is deleted\n");
+			states[7].deleted = 1;}
+	    }
+	   
+	   
+    
+	}
+	//changing states for each scenerio 
+	//changing state for c 1 _
+    else if (command[0] == 'c' && command[2] == '1'){
+		
+	   if (command[4] == 'A'){
+		   
+		currentState.nextState1 = states;
+		states[currentState.num].nextState1 = states;
+           }	
+	     else if (command[4] == 'B'){
+		currentState.nextState1 = states + 1;
+		states[currentState.num].nextState1 = states + 1;
+           }
+    	else if (command[4] == 'C'){
+		currentState.nextState1 = states + 2;
+		states[currentState.num].nextState1 = states + 2;
+           }
+        else if (command[4] == 'D'){
+		currentState.nextState1 = states + 3;
+		states[currentState.num].nextState1 = states + 3;
+           }
+        else if (command[4] == 'E'){
+		currentState.nextState1 = states + 4;
+		states[currentState.num].nextState1 = states + 4;
+           }
+        else if (command[4] == 'F'){
+		currentState.nextState1 = states + 5;
+		states[currentState.num].nextState1 = states + 5;
+           }
+        else if (command[4] == 'G'){
+		currentState.nextState1 = states + 6;
+		states[currentState.num].nextState1 = states + 6;
+           }	
+        else if (command[4] == 'H'){
+		currentState.nextState1 = states + 7;
+		states[currentState.num].nextState1 = states + 7;
+           }
+        }
+	//changing state for c 0 _
+    else if (command[0] == 'c' && command[2] == '0'){
+		
+	if (command[4] == 'A'){
+		currentState.nextState0 = states;
+		states[currentState.num].nextState0 = states;
+        }	
+		else if (command[4] == 'B'){
+		currentState.nextState0 = states + 1;
+		states[currentState.num].nextState0 = states + 1;
+        }
+        else if (command[4] == 'C'){
+		currentState.nextState0 = states + 2;
+		states[currentState.num].nextState0 = states + 2;
+        }
+        else if (command[4] == 'D'){
+		currentState.nextState0 = states + 3;
+		states[currentState.num].nextState0 = states + 3;
+        }
+        else if (command[4] == 'E'){
+		currentState.nextState0 = states + 4;
+		states[currentState.num].nextState0 = states + 4;
+        }
+        else if (command[4] == 'F'){
+		currentState.nextState0 = states + 5;
+		states[currentState.num].nextState0 = states + 5;
+        }
+        else if (command[4] == 'G'){
+		currentState.nextState0 = states + 6;
+		states[currentState.num].nextState0 = states + 6;
+        }	
+        else if (command[4] == 'H'){
+		currentState.nextState0 = states + 7;
+		states[currentState.num].nextState0 = states + 7;
+        }
+      }
+    
+      }
+    exit(1);//just in case exit
+}
